@@ -5,9 +5,15 @@ const router = express.Router();
 
 router.post("/newUser", usersService.createUser);
 
-router.get("/users/:userId", usersService.getUserById);
+// router.get("/users/:userId", usersService.getUserById);
 
-router.get("/userByEmail", usersService.getUserByEmail);
+// router.get("/userByEmail", usersService.getUserByEmail);
+
+router.post("/login", usersService.login);
+
+router.post("/logout", usersService.logout);
+
+router.get("/user", usersService.getUserFromCookie);
 
 router.put("/users/update/:userId", usersService.updateUser);
 

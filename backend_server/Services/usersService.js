@@ -1,4 +1,6 @@
 import { database } from "../Database/db.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import {
   User,
   hashPassword,
@@ -46,21 +48,76 @@ async function createUser(req, res) {
     });
     user.id = userRef.id;
 
-    res.status(201).send('Account created successfully !')
+    res.status(201).send("Account created successfully !");
   } catch (error) {
     console.error("Error when add a new user:", error);
     res.status(500).send("Error when add a new user");
   }
 }
 
-async function getUserById(req, res) {
-  try {
-    const userId = req.params.userId;
+// async function getUserById(req, res) {
+//   try {
+//     const userId = req.params.userId;
 
+//     const userDoc = await database.collection("Users").doc(userId).get();
+
+//     if (!userDoc.exists) {
+//       return res.status(404).send("User not found !");
+//     }
+
+//     const userData = userDoc.data();
+//     res.status(200).json(userData);
+//   } catch (error) {
+//     console.error("Error when search user information: ", error);
+//     res.status(500).send("Error when search user information");
+//   }
+// }
+
+// async function getUserByEmail(req, res) {
+//   try {
+//     const email = req.query.email;
+
+//     if (!email) {
+//       return res.status(400).send("Email parameter is missing !");
+//     }
+
+//     const isValidEmail = emailValidation(email);
+//     if (!isValidEmail) {
+//       return res.status(400).send("Email address is invalid !");
+//     }
+
+//     const searchedUser = await database
+//       .collection("Users")
+//       .where("email", "==", email)
+//       .get();
+
+//     if (searchedUser.empty) {
+//       return res.status(404).send("User not found !");
+//     }
+
+//     const userData = searchedUser.docs[0].data();
+
+//     const user = new User(
+//       searchedUser.docs[0].id,
+//       userData.firstname,
+//       userData.lastname,
+//       userData.email,
+//       userData.password
+//     );
+
+//     res.status(200).send(user);
+//   } catch (error) {
+//     console.error("Error when fetching user by email: ", error);
+//     res.status(500).send("Error when fetching user by email");
+//   }
+// }
+
+async function getUserById(userId) {
+  try {
     const userDoc = await database.collection("Users").doc(userId).get();
 
     if (!userDoc.exists) {
-      return res.status(404).send("User not found !");
+      throw new Error("User not found !");
     }
 
     const userData = userDoc.data();
@@ -71,17 +128,11 @@ async function getUserById(req, res) {
   }
 }
 
-async function getUserByEmail(req, res) {
+async function getUserByEmail(email) {
   try {
-    const email = req.query.email;
-
-    if (!email) {
-      return res.status(400).send("Email parameter is missing !");
-    }
-
     const isValidEmail = emailValidation(email);
     if (!isValidEmail) {
-      return res.status(400).send("Email address is invalid !");
+      throw new Error("Email address is invalid!");
     }
 
     const searchedUser = await database
@@ -90,7 +141,7 @@ async function getUserByEmail(req, res) {
       .get();
 
     if (searchedUser.empty) {
-      return res.status(404).send("User not found !");
+      throw new Error("User not found!");
     }
 
     const userData = searchedUser.docs[0].data();
@@ -103,11 +154,56 @@ async function getUserByEmail(req, res) {
       userData.password
     );
 
-    res.status(200).send(user);
+    return user;
   } catch (error) {
     console.error("Error when fetching user by email: ", error);
-    res.status(500).send("Error when fetching user by email");
+    throw new Error("Error when fetching user by email");
   }
+}
+
+async function login(req, res) {
+  const user = await getUserByEmail(req.body.email);
+
+  if (!user) {
+    return res.status(404).send("User not found !");
+  }
+
+  if (!(await bcrypt.compare(req.body.password, user.password))) {
+    return res.status(400).send("Invalid password !");
+  }
+
+  const token = jwt.sign({ id: user.id }, "secret");
+
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  res.status(200).send("success");
+}
+
+async function getUserFromCookie(req, res) {
+  try {
+    const cookie = req.cookies["jwt"];
+
+    const claims = jwt.verify(cookie, "secret");
+
+    if (!claims) {
+      return res.status(401).send("Unauthenticated");
+    }
+
+    const user = await getUserById(claims.id);
+
+    const { password, ...data } = user.toJSON();
+
+    res.status(200).send(data);
+  } catch (error) {
+    return res.status(401).send("Unauthenticated");
+  }
+}
+
+async function logout(req, res) {
+  res.cookies("jwt", "", { maxAge: 0 });
 }
 
 async function updateUser(req, res) {
@@ -181,4 +277,4 @@ async function deleteUser(req, res) {
   }
 }
 
-export { createUser, getUserById, getUserByEmail, updateUser, deleteUser };
+export { createUser, login, logout, getUserFromCookie, updateUser, deleteUser };
