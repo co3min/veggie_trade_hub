@@ -1,48 +1,82 @@
 <template>
-  <div class="signup-container">
-    <div class="form-container">
-      <h2>Create an Account</h2>
-      <form @submit.prevent="handleSubmit" class="signup-form">
-        <div class="form-group">
-          <label for="firstname">First Name:</label>
-          <input v-model="firstname" type="text" id="firstname" required />
+  <div
+    class="flex items-center justify-center h-screen relative bg-cover bg-center bg-[url('../assets/veggie_Account.jpg')]">
+    <div class="w-full md:w-2/3 max-w-screen-md p-8 bg-white shadow-md rounded">
+      <h2 class="text-2xl font-semibold mb-4 text-center">Create an Account</h2>
+      <form @submit.prevent="handleSubmit" class="grid gap-2">
+        <div class="flex flex-col">
+          <label for="firstname" class="text-xl font-medium text-gray-600"
+            >First Name:</label
+          >
+          <input
+            v-model="firstname"
+            type="text"
+            id="firstname"
+            required
+            class="mt-1 p-2 border rounded-md" />
         </div>
 
-        <div class="form-group">
-          <label for="lastname">Last Name:</label>
-          <input v-model="lastname" type="text" id="lastname" required />
+        <div class="flex flex-col">
+          <label for="lastname" class="text-xl font-medium text-gray-600"
+            >Last Name:</label
+          >
+          <input
+            v-model="lastname"
+            type="text"
+            id="lastname"
+            required
+            class="mt-1 p-2 border rounded-md" />
         </div>
 
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input v-model="email" type="email" id="email" required />
+        <div class="flex flex-col">
+          <label for="email" class="text-xl font-medium text-gray-600"
+            >Email:</label
+          >
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            required
+            class="mt-1 p-2 border rounded-md" />
         </div>
 
-        <div class="form-group">
-          <label for="password">Password:</label>
-
+        <div class="flex flex-col">
+          <label for="password" class="text-xl font-medium text-gray-600"
+            >Password:</label
+          >
           <input
             v-if="showPassword"
             type="text"
-            class="input"
             v-model="password"
-          />
-          <input v-else type="password" class="input" v-model="password" />
-          <div class="showclass">
-            <button @click="toggleShow">Show Password</button>
-          </div>
+            class="mt-1 p-2 border rounded-md" />
+          <input
+            v-else
+            type="password"
+            v-model="password"
+            class="mt-1 p-2 border rounded-md" />
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button
+          type="submit"
+          class="w-full md:w-auto bg-green-500 text-white text-xl p-2 rounded-md">
+          Sign Up
+        </button>
+        <a href="login" class="text-black text-xl text-right"
+          >Already have an account?</a
+        >
       </form>
     </div>
-
-    <div class="image-container">
-      <img src="../assets/veggie_Account.jpg" alt="Signup Image" />
-    </div>
+  </div>
+  <div
+    :class="{
+      'absolute top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-green-300':
+        showAlert,
+      'absolute top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-red-300':
+        showError,
+    }">
+    {{ alertMessage }}
   </div>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -53,13 +87,12 @@ export default {
       lastname: "",
       email: "",
       password: "",
-      showPassword: false,
+      showAlert: false,
+      showError: false,
+      alertMessage: "",
     };
   },
   methods: {
-    toggleShow() {
-      this.showPassword = !this.showPassword;
-    },
     async handleSubmit() {
       try {
         const response = await axios.post(
@@ -74,9 +107,23 @@ export default {
 
         console.log("Response from server:", response.data);
 
+        this.showAlert = true;
+        this.alertMessage = response.data;
+        setTimeout(() => {
+          this.showAlert = false;
+          this.alertMessage = "";
+          this.$router.push("/login");
+        }, 3000);
+
         // You can handle the response or perform additional actions here
       } catch (error) {
         console.log(error.response.data);
+        this.showError = true;
+        this.alertMessage = error.response.data;
+        setTimeout(() => {
+          this.showError = false;
+          this.alertMessage = "";
+        }, 3000);
       }
     },
   },
@@ -84,94 +131,5 @@ export default {
 </script>
 
 <style scoped>
-.showclass {
-  text-align: center;
-}
-
-.showclass > button {
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 2px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.signup-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80vh;
-  padding: 20px;
-}
-
-.form-container {
-  width: 70%;
-  max-width: 700px; /* Limit maximum width for larger screens*/
-  padding: 40px;
-  box-shadow: 0 4px 8px black;
-  border-radius: 8px;
-}
-
-h2 {
-  text-align: center;
-  color: #333;
-}
-
-.signup-form {
-  display: grid;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.image-container {
-  flex: 1;
-  margin-left: 20px; /* Add space between the form and image */
-}
-
-img {
-  width: auto;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* Add responsive styles for smaller screens if needed */
-@media screen and (max-width: 1024px) {
-  .signup-container {
-    flex-direction: column;
-  }
-
-  .form-container,
-  .image-container {
-    width: 100%;
-    margin: 20px 0;
-  }
-}
+/* Add any additional styles here if needed */
 </style>

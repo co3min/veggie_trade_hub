@@ -17,7 +17,7 @@ async function createUser(req, res) {
       return res
         .status(400)
         .send(
-          "The password must contain at least one small letter, one capital letter, a number and one symbol"
+          "The password must contain at least one small letter, one capital letter, a number and one symbol !"
         );
     }
 
@@ -46,7 +46,7 @@ async function createUser(req, res) {
     });
     user.id = userRef.id;
 
-    res.status(201).json(user);
+    res.status(201).send('Account created successfully !')
   } catch (error) {
     console.error("Error when add a new user:", error);
     res.status(500).send("Error when add a new user");

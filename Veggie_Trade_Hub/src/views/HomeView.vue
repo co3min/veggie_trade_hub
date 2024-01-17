@@ -23,65 +23,31 @@ const handleLoginUpClick = () => {
     <!-- Your existing content goes here -->
 
     <!-- Account button in the top right corner -->
-    <button @click="toggleOptions" class="account-button">
+    <button
+      @click="toggleOptions"
+      class="fixed top-20 right-20 px-4 py-2 bg-blue-500 text-white border border-gray-300 rounded-full flex items-center cursor-pointer transition-all duration-300 hover:bg-blue-600 transform hover:scale-105"
+    >
       <span v-if="!showOptions">Account</span>
       <span v-else>&#x2715; Close</span>
     </button>
 
     <!-- Options dropdown -->
-    <div v-if="showOptions" class="options-dropdown">
-      <button @click="handleLoginUpClick">Sign In</button>
-      <button @click="handleSignUpClick">Sign Up</button>
+    <div
+      v-if="showOptions"
+      class="fixed top-32 right-20 bg-white shadow-md border border-gray-300 rounded p-2 flex flex-col z-10"
+    >
+      <button
+        @click="handleLoginUpClick"
+        class="py-1 px-2 bg-blue-500 text-white border-none rounded-md cursor-pointer transition-all duration-300 hover:bg-blue-600"
+      >
+        Sign In
+      </button>
+      <button
+        @click="handleSignUpClick"
+        class="py-1 px-2 bg-blue-500 text-white border-none rounded-md cursor-pointer transition-all duration-300 hover:bg-blue-600"
+      >
+        Sign Up
+      </button>
     </div>
   </main>
 </template>
-
-<style scoped>
-.account-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  background-color: #5addef;
-  color: #333333;
-  border: 1px solid #ccc;
-  border-radius: 24px; /* Rounded corners */
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.account-button:hover {
-  background-color: #0bc9f4; /* Lighter background color on hover */
-  transform: scale(1.05); /* Scale effect on hover */
-}
-
-.options-dropdown {
-  position: fixed;
-  top: 60px; /* Adjust the top position */
-  right: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 1000;
-}
-
-.options-dropdown button {
-  padding: 8px;
-  margin: 5px 0;
-  background-color: #1564f5;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.options-dropdown button:hover {
-  background-color: #0857f5;
-}
-</style>

@@ -1,32 +1,39 @@
 <template>
-  <div>
-    <h2 id="name">Veggie Trade Hub</h2>
-  </div>
-  <div class="login-container">
-    <form class="login-form">
-      <h1>Login</h1>
-      <label for="username">Username:</label>
-      <input
-        v-model="username"
-        type="text"
-        id="username"
-        name="username"
-        placeholder="Enter your username"
-        required
-      />
-      <label for="password">Password:</label>
-      <input
-        v-model="password"
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Enter your password"
-        required
-      />
-      <div class="button">
-        <button @click.prevent="login">Login</button>
-      </div>
-    </form>
+  <div
+    class="bg-gray-400 min-h-screen flex items-center justify-center bg-[url('../assets/login.jpg')] bg-cover bg-center">
+    <div class="bg-white p-10 rounded shadow-lg max-w-md w-full">
+      <h2 class="text-3xl font-semibold mb-4">Login</h2>
+      <form @submit.prevent="login">
+        <div class="mb-4">
+          <label for="username" class="block text-2xl font-medium text-gray-600"
+            >Username</label
+          >
+          <input
+            v-model="username"
+            type="text"
+            id="username"
+            name="username"
+            class="mt-1 p-2 w-full border rounded-md" />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-2xl font-medium text-gray-600"
+            >Password</label
+          >
+          <input
+            v-model="password"
+            type="password"
+            id="password"
+            name="password"
+            class="mt-1 p-2 w-full border rounded-md" />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white text-2xl p-2 rounded-md">
+          Login
+        </button>
+      </form>
+      <a href="signup" class="text-black text-xl">Don't have an account?</a>
+    </div>
   </div>
 </template>
 
@@ -40,72 +47,13 @@ export default {
   },
   methods: {
     login() {
-      console.log("Logging in with:", this.username, this.password);
+      // Add your login logic here
+      console.log("Logging in...", this.username, this.password);
     },
   },
 };
 </script>
 
 <style scoped>
-#name {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-}
-
-.login-form {
-  max-width: 40rem;
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 8px;
-}
-
-input {
-  width: 100%;
-  padding: 6px;
-  margin-bottom: 16px;
-}
-
-.button {
-  text-align: center;
-}
-
-button {
-  width: 50%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-@media (max-width: 600px) {
-  .login-container {
-    height: 100%;
-  }
-
-  .login-form {
-    max-width: 100%;
-  }
-}
+/* Add any additional styles here if needed */
 </style>
