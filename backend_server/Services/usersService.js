@@ -132,7 +132,8 @@ async function getUserByEmail(email) {
   try {
     const isValidEmail = emailValidation(email);
     if (!isValidEmail) {
-      throw new Error("Email address is invalid!");
+      // throw new Error("Email address is invalid!");
+      return;
     }
 
     const searchedUser = await database
@@ -141,7 +142,8 @@ async function getUserByEmail(email) {
       .get();
 
     if (searchedUser.empty) {
-      throw new Error("User not found!");
+      // throw new Error("User not found!");
+      return;
     }
 
     const userData = searchedUser.docs[0].data();
@@ -157,29 +159,33 @@ async function getUserByEmail(email) {
     return user;
   } catch (error) {
     console.error("Error when fetching user by email: ", error);
-    throw new Error("Error when fetching user by email");
   }
 }
 
 async function login(req, res) {
-  const user = await getUserByEmail(req.body.email);
+  try {
+    const user = await getUserByEmail(req.body.email);
 
-  if (!user) {
-    return res.status(404).send("User not found !");
+    if (!user) {
+      return res.status(404).send("User not found !");
+    }
+
+    if (!(await bcrypt.compare(req.body.password, user.password))) {
+      return res.status(400).send("Invalid password !");
+    }
+
+    const token = jwt.sign({ id: user.id }, "secret");
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).send("success");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error to login");
   }
-
-  if (!(await bcrypt.compare(req.body.password, user.password))) {
-    return res.status(400).send("Invalid password !");
-  }
-
-  const token = jwt.sign({ id: user.id }, "secret");
-
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
-  });
-
-  res.status(200).send("success");
 }
 
 async function getUserFromCookie(req, res) {
@@ -194,7 +200,7 @@ async function getUserFromCookie(req, res) {
 
     const user = await getUserById(claims.id);
 
-    const { password, ...data } = user.toJSON();
+    const { password, ...data } = await user.toJSON();
 
     res.status(200).send(data);
   } catch (error) {

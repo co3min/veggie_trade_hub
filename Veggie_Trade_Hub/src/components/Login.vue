@@ -5,14 +5,14 @@
       <h2 class="text-3xl font-semibold mb-4">Login</h2>
       <form @submit.prevent="login">
         <div class="mb-4">
-          <label for="username" class="block text-2xl font-medium text-gray-600"
-            >Username</label
+          <label for="email" class="block text-2xl font-medium text-gray-600"
+            >Emai</label
           >
           <input
-            v-model="username"
+            v-model="email"
             type="text"
-            id="username"
-            name="username"
+            id="email"
+            name="email"
             class="mt-1 p-2 w-full border rounded-md" />
         </div>
         <div class="mb-4">
@@ -38,17 +38,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
     };
   },
   methods: {
-    login() {
-      // Add your login logic here
-      console.log("Logging in...", this.username, this.password);
+    async login() {
+      try {
+        const response = await axios.post(
+          "http://localhost:5001/veggie/login",
+          {
+            email: this.email,
+            password: this.password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
     },
   },
 };
