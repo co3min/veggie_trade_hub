@@ -1,5 +1,11 @@
 import { database } from "../Database/db.js";
 import jwt from "jsonwebtoken";
+
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import path from "path";
+
 import bcrypt from "bcryptjs";
 import {
   User,
@@ -7,6 +13,15 @@ import {
   emailValidation,
   validatePassword,
 } from "../Models/user.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const privateKeyPath = path.join(__dirname, "../private-key.pem");
+const publicKeyPath = path.join(__dirname, "../public-key.pem");
+
+const privateKey = fs.readFileSync(privateKeyPath);
+const publicKey = fs.readFileSync(publicKeyPath);
 
 async function createUser(req, res) {
   try {
@@ -121,10 +136,9 @@ async function getUserById(userId) {
     }
 
     const userData = userDoc.data();
-    res.status(200).json(userData);
+    return userData;
   } catch (error) {
     console.error("Error when search user information: ", error);
-    res.status(500).send("Error when search user information");
   }
 }
 
@@ -174,14 +188,14 @@ async function login(req, res) {
       return res.status(400).send("Invalid password !");
     }
 
-    const token = jwt.sign({ id: user.id }, "secret");
+    const token = jwt.sign({ id: user.id }, privateKey, { algorithm: "RS256" });
 
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).send("success");
+    res.status(200).send("Success login");
   } catch (error) {
     console.error(error);
     throw new Error("Error to login");
@@ -192,15 +206,21 @@ async function getUserFromCookie(req, res) {
   try {
     const cookie = req.cookies["jwt"];
 
-    const claims = jwt.verify(cookie, "secret");
+    const claims = jwt.verify(cookie, publicKey, { algorithms: ["RS256"] });
 
     if (!claims) {
       return res.status(401).send("Unauthenticated");
     }
 
+    console.log(claims);
+
     const user = await getUserById(claims.id);
 
-    const { password, ...data } = await user.toJSON();
+    console.log(user);
+
+    const { password, ...data } = user;
+    console.log();
+    console.log(data);
 
     res.status(200).send(data);
   } catch (error) {

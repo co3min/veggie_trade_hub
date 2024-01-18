@@ -39,12 +39,13 @@
 
 <script>
 import axios from "axios";
-
+import getUserFromCookie from "./userService.js";
 export default {
   data() {
     return {
       email: "",
       password: "",
+      user: null,
     };
   },
   methods: {
@@ -60,8 +61,18 @@ export default {
             withCredentials: true,
           }
         );
-
         console.log(response.data);
+
+        try {
+          this.user = await getUserFromCookie();
+
+          console.log(this.user.email);
+          this.$store.commit("setUser", this.user);
+
+          this.$router.push({ name: "home" });
+        } catch (error) {
+          console.error("Error in getUserData:", error);
+        }
       } catch (error) {
         console.log(error.response.data);
       }
