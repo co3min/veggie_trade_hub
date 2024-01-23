@@ -34,6 +34,15 @@
       </form>
       <a href="signup" class="text-black text-xl">Don't have an account?</a>
     </div>
+    <div
+      :class="{
+        'absolute top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-green-300':
+          showAlert,
+        'absolute top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-red-300':
+          showError,
+      }">
+      {{ alertMessage }}
+    </div>
   </div>
 </template>
 
@@ -46,6 +55,9 @@ export default {
       email: "",
       password: "",
       user: null,
+      showAlert: false,
+      showError: false,
+      alertMessage: "",
     };
   },
   methods: {
@@ -61,20 +73,30 @@ export default {
             withCredentials: true,
           }
         );
-        console.log(response.data);
 
         try {
           this.user = await getUserFromCookie();
 
-          console.log(this.user.email);
-          this.$store.commit("setUser", this.user);
+          this.showAlert = true;
+          this.alertMessage = response.data;
+          setTimeout(() => {
+            this.showAlert = false;
+            this.alertMessage = "";
 
-          this.$router.push({ name: "home" });
+            this.$store.commit("setUser", this.user);
+            this.$router.push({ name: "home" });
+          }, 3000);
         } catch (error) {
           console.error("Error in getUserData:", error);
         }
       } catch (error) {
         console.log(error.response.data);
+        this.showError = true;
+        this.alertMessage = error.response.data;
+        setTimeout(() => {
+          this.showError = false;
+          this.alertMessage = "";
+        }, 3000);
       }
     },
   },

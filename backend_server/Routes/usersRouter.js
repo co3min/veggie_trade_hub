@@ -11,7 +11,7 @@ router.post("/newUser", usersService.createUser);
 
 router.post("/login", usersService.login);
 
-router.post("/logout", usersService.logout);
+router.get("/logout", usersService.logout);
 
 router.get("/user", usersService.getUserFromCookie);
 

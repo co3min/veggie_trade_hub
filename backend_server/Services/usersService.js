@@ -212,14 +212,12 @@ async function getUserFromCookie(req, res) {
       return res.status(401).send("Unauthenticated");
     }
 
-    console.log(claims);
-
     const user = await getUserById(claims.id);
 
-    console.log(user);
-
     const { password, ...data } = user;
-    console.log();
+
+    data.id = claims.id;
+
     console.log(data);
 
     res.status(200).send(data);
@@ -229,7 +227,9 @@ async function getUserFromCookie(req, res) {
 }
 
 async function logout(req, res) {
-  res.cookies("jwt", "", { maxAge: 0 });
+  res.clearCookie("jwt");
+  console.log("Logout");
+  res.status(200).send("Logout successful");
 }
 
 async function updateUser(req, res) {
