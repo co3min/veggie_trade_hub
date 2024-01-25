@@ -216,10 +216,23 @@ async function deleteVeggiePost(req, res) {
   }
 }
 
+async function uploadImage(req, res) {
+  const uploadedFiles = req.files.map((file) => {
+    return {
+      filename: file.filename,
+      path: file.path,
+      url: `http://localhost:5001/uploads/${file.filename}`,
+    };
+  });
+
+  res.json(uploadedFiles);
+}
+
 export {
   createVeggiePost,
   getVeggiePostById,
   getVeggiePostByUserID,
   updateVeggiePost,
   deleteVeggiePost,
+  uploadImage,
 };

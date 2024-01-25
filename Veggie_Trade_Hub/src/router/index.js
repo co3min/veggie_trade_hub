@@ -3,6 +3,7 @@ import SignUpView from "../views/SignUpView.vue";
 import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import UserInfo from "../components/UserInfo.vue";
+import CreatePost from "../components/CreatePost.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: "/userInfo",
       name: "userInfo",
       component: UserInfo,
+    },
+    {
+      path: "/createVeggiePost",
+      name: "createVeggiePost",
+      component: CreatePost,
     },
   ],
 });

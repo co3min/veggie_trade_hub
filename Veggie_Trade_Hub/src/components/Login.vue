@@ -6,7 +6,7 @@
       <form @submit.prevent="login">
         <div class="mb-4">
           <label for="email" class="block text-2xl font-medium text-gray-600"
-            >Emai</label
+            >Email</label
           >
           <input
             v-model="email"

@@ -104,7 +104,9 @@ export default {
     userInfo() {
       this.$router.push({ name: "userInfo" });
     },
-    createVeggie() {},
+    createVeggie() {
+      this.$router.push({ name: "createVeggiePost" });
+    },
     viewVeggie() {
       //   this.$router.push({ name: "userInfo" });
     },
