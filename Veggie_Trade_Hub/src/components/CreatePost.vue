@@ -1,109 +1,125 @@
 <template>
-  <div>
-    <Navbar> </Navbar>
-  </div>
-  <div
-    class="container mx-auto mt-8 px-4 sm:px-8 md:px-16 w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
-    <h1 class="text-2xl font-bold mb-8 text-center">Create Veggie Post</h1>
+  <template v-if="user">
+    <div>
+      <Navbar> </Navbar>
+    </div>
+    <div
+      class="container mx-auto mt-8 px-4 sm:px-8 md:px-16 w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+      <h1 class="text-2xl font-bold mb-8 text-center">Create Veggie Post</h1>
 
-    <form
-      @submit.prevent="submitForm"
-      class="text-center border border-black rounded-md mb-8 p-8">
-      <div class="mb-4">
-        <label for="title" class="block text-xl font-semibold text-gray-600">
-          Title
-        </label>
-        <input
-          v-model="veggiePost.title"
-          type="text"
-          id="title"
-          required
-          class="w-full mt-1 p-4 border rounded-md" />
-      </div>
+      <form
+        @submit.prevent="submitForm"
+        class="text-center border border-black rounded-md mb-8 p-8">
+        <div class="mb-4">
+          <label for="title" class="block text-xl font-semibold text-gray-600">
+            Title
+          </label>
+          <input
+            v-model="veggiePost.title"
+            type="text"
+            id="title"
+            required
+            class="w-full mt-1 p-4 border rounded-md" />
+        </div>
 
-      <div class="mb-4">
-        <label
-          for="description"
-          class="block text-xl font-semibold text-gray-600">
-          Description
-        </label>
-        <textarea
-          v-model="veggiePost.description"
-          id="description"
-          rows="4"
-          class="w-full mt-1 p-4 border rounded-md"></textarea>
-      </div>
+        <div class="mb-4">
+          <label
+            for="description"
+            class="block text-xl font-semibold text-gray-600">
+            Description
+          </label>
+          <textarea
+            v-model="veggiePost.description"
+            id="description"
+            rows="4"
+            class="w-full mt-1 p-4 border rounded-md"></textarea>
+        </div>
 
-      <div class="mb-4">
-        <label for="price" class="block text-xl font-semibold text-gray-600">
-          Price
-        </label>
-        <input
-          v-model="veggiePost.price"
-          type="number"
-          id="price"
-          required
-          min="0"
-          class="w-full mt-1 p-2 border rounded-md" />
-      </div>
+        <div class="mb-4">
+          <label for="price" class="block text-xl font-semibold text-gray-600">
+            Price
+          </label>
+          <input
+            v-model="veggiePost.price"
+            type="number"
+            id="price"
+            required
+            min="0"
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
 
-      <div class="mb-4">
-        <label for="stock" class="block text-xl font-semibold text-gray-600">
-          Stock
-        </label>
-        <input
-          v-model="veggiePost.stock"
-          type="number"
-          id="stock"
-          required
-          min="0"
-          class="w-full mt-1 p-2 border rounded-md" />
-      </div>
+        <div class="mb-4">
+          <label for="stock" class="block text-xl font-semibold text-gray-600">
+            Stock
+          </label>
+          <input
+            v-model="veggiePost.stock"
+            type="number"
+            id="stock"
+            required
+            min="0"
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
 
-      <div class="mb-4">
-        <label for="unit" class="block text-xl font-semibold text-gray-600">
-          Unit
-        </label>
-        <input
-          v-model="veggiePost.unit"
-          type="text"
-          id="unit"
-          required
-          class="w-full mt-1 p-2 border rounded-md" />
-      </div>
+        <div class="mb-4">
+          <label for="unit" class="block text-xl font-semibold text-gray-600">
+            Unit
+          </label>
+          <input
+            v-model="veggiePost.unit"
+            type="text"
+            id="unit"
+            required
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
 
-      <div class="mb-4">
-        <label for="location" class="block text-xl font-semibold text-gray-600">
-          Location
-        </label>
-        <input
-          v-model="veggiePost.location"
-          type="text"
-          id="location"
-          required
-          class="w-full mt-1 p-2 border rounded-md" />
-      </div>
+        <div class="mb-4">
+          <label
+            for="location"
+            class="block text-xl font-semibold text-gray-600">
+            Location
+          </label>
+          <input
+            v-model="veggiePost.location"
+            type="text"
+            id="location"
+            required
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
 
-      <div class="mb-4">
-        <label for="image" class="block text-xl font-semibold text-gray-600">
-          Image
-        </label>
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          multiple
-          @change="handleImageChange"
-          class="w-full mt-1 p-2 border rounded-md" />
-      </div>
+        <div class="mb-4">
+          <label for="image" class="block text-xl font-semibold text-gray-600">
+            Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            multiple
+            @change="handleImageChange"
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
 
-      <button
-        type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded-md text-xl sm:text-base">
-        Submit
-      </button>
-    </form>
-  </div>
+        <button
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md text-xl sm:text-base">
+          Submit
+        </button>
+      </form>
+    </div>
+    <div
+      :class="{
+        'fixed top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-green-300':
+          showAlert,
+        'fixed top-0 right-0 mt-4 mr-4 p-4 rounded-xl z-20 bg-red-300':
+          showError,
+      }">
+      {{ alertMessage }}
+    </div>
+  </template>
+  <template v-else>
+    <h3>Unauthorized</h3>
+  </template>
 </template>
 
 <script>
@@ -121,6 +137,9 @@ export default {
   data() {
     return {
       formData: null,
+      showAlert: false,
+      showError: false,
+      alertMessage: "",
       veggiePost: {
         title: "",
         description: "",
@@ -142,9 +161,13 @@ export default {
           for (let i = 0; i < files.length; i++) {
             this.formData.append("images", files[i]);
           }
-          console.log(this.formData);
         } else {
-          alert("You can upload a maximum of 5 images.");
+          this.showError = true;
+          this.alertMessage = "You can upload a maximum of 5 images.";
+          setTimeout(() => {
+            this.showError = false;
+            this.alertMessage = "";
+          }, 3000);
         }
       }
     },
@@ -171,6 +194,38 @@ export default {
         } catch (error) {
           console.log(error);
         }
+      }
+
+      try {
+        const responseToPost = await axios.post(
+          "http://localhost:5001/veggie/newVeggiePost",
+          {
+            title: this.veggiePost.title,
+            description: this.veggiePost.description,
+            price: this.veggiePost.price,
+            stock: this.veggiePost.stock,
+            unit: this.veggiePost.unit,
+            location: this.veggiePost.location,
+            images: this.veggiePost.images,
+            userID: this.veggiePost.userID,
+          }
+        );
+
+        this.showAlert = true;
+        this.alertMessage = "VeggiePost successfully created !";
+        setTimeout(() => {
+          this.showAlert = false;
+          this.alertMessage = "";
+          //   this.$router.push("/login"); te duce la ale tale
+        }, 3000);
+      } catch (error) {
+        console.log(error.response.data);
+        this.showError = true;
+        this.alertMessage = error.response.data;
+        setTimeout(() => {
+          this.showError = false;
+          this.alertMessage = "";
+        }, 3000);
       }
 
       console.log("Submitted VeggiePost:", this.veggiePost);
