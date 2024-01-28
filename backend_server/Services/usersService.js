@@ -70,63 +70,6 @@ async function createUser(req, res) {
   }
 }
 
-// async function getUserById(req, res) {
-//   try {
-//     const userId = req.params.userId;
-
-//     const userDoc = await database.collection("Users").doc(userId).get();
-
-//     if (!userDoc.exists) {
-//       return res.status(404).send("User not found !");
-//     }
-
-//     const userData = userDoc.data();
-//     res.status(200).json(userData);
-//   } catch (error) {
-//     console.error("Error when search user information: ", error);
-//     res.status(500).send("Error when search user information");
-//   }
-// }
-
-// async function getUserByEmail(req, res) {
-//   try {
-//     const email = req.query.email;
-
-//     if (!email) {
-//       return res.status(400).send("Email parameter is missing !");
-//     }
-
-//     const isValidEmail = emailValidation(email);
-//     if (!isValidEmail) {
-//       return res.status(400).send("Email address is invalid !");
-//     }
-
-//     const searchedUser = await database
-//       .collection("Users")
-//       .where("email", "==", email)
-//       .get();
-
-//     if (searchedUser.empty) {
-//       return res.status(404).send("User not found !");
-//     }
-
-//     const userData = searchedUser.docs[0].data();
-
-//     const user = new User(
-//       searchedUser.docs[0].id,
-//       userData.firstname,
-//       userData.lastname,
-//       userData.email,
-//       userData.password
-//     );
-
-//     res.status(200).send(user);
-//   } catch (error) {
-//     console.error("Error when fetching user by email: ", error);
-//     res.status(500).send("Error when fetching user by email");
-//   }
-// }
-
 async function getUserById(userId) {
   try {
     const userDoc = await database.collection("Users").doc(userId).get();
@@ -146,7 +89,6 @@ async function getUserByEmail(email) {
   try {
     const isValidEmail = emailValidation(email);
     if (!isValidEmail) {
-      // throw new Error("Email address is invalid!");
       return;
     }
 
@@ -156,7 +98,6 @@ async function getUserByEmail(email) {
       .get();
 
     if (searchedUser.empty) {
-      // throw new Error("User not found!");
       return;
     }
 

@@ -13,16 +13,7 @@ export default {
   },
   data() {
     return {
-      veggiePost: {
-        title: "",
-        description: "",
-        price: 0,
-        stock: 0,
-        unit: "",
-        location: "",
-        images: [],
-        userID: "",
-      },
+      veggiePost: {},
     };
   },
 };

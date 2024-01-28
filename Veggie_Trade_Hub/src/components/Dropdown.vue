@@ -22,7 +22,7 @@
           Create VeggiePost
         </button>
         <button
-          @click="viewVeggie()"
+          @click="viewVeggies()"
           class="block px-2 py-1 text-xl text-gray-100 hover:text-blue-500 transition duration-300"
           role="menuitem">
           My VeggiePosts
@@ -31,7 +31,6 @@
     </div>
   </div>
 
-  <!--  -->
   <div class="relative inline-block text-left">
     <button
       @click="toggleDropdown"
@@ -94,7 +93,7 @@ export default {
         console.log("Nu mere");
         await axios.get("http://localhost:5001/veggie/logout");
 
-        // this.$store.commit("setUser", null);
+        this.$store.commit("setUser", null);
         // this.document.cookie =
         //   "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
@@ -107,8 +106,8 @@ export default {
     createVeggie() {
       this.$router.push({ name: "createVeggiePost" });
     },
-    viewVeggie() {
-      //   this.$router.push({ name: "userInfo" });
+    viewVeggies() {
+      this.$router.push({ name: "myVeggiePosts" });
     },
   },
 };

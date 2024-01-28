@@ -4,6 +4,8 @@ import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 import UserInfo from "../components/UserInfo.vue";
 import CreatePost from "../components/CreatePost.vue";
+import MyVeggiePosts from "../components/MyVeggiePosts.vue";
+import UpdatePost from "../components/UpdatePost.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +34,16 @@ const router = createRouter({
       path: "/createVeggiePost",
       name: "createVeggiePost",
       component: CreatePost,
+    },
+    {
+      path: "/myVeggiePosts",
+      name: "myVeggiePosts",
+      component: MyVeggiePosts,
+    },
+    {
+      path: "/updateVeggiePost/:id",
+      name: "updateVeggiePost",
+      component: UpdatePost,
     },
   ],
 });

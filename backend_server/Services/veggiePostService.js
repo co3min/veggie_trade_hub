@@ -1,6 +1,7 @@
 import { query } from "express";
 import { database } from "../Database/db.js";
 import { VeggiePost } from "../Models/veggiePost.js";
+import fs from "fs";
 
 async function verifyUserExist(userId) {
   const userDoc = await database.collection("Users").doc(userId).get();
@@ -206,8 +207,24 @@ async function deleteVeggiePost(req, res) {
       return res.status(404).send("VeggiePost not found !");
     }
 
-    const veggieData = veggieDoc.data();
     await database.collection("VeggiePosts").doc(veggieId).delete();
+
+    const veggieData = veggieDoc.data();
+
+    if (veggieData.images && veggieData.images.length > 0) {
+      veggieData.images.forEach((image) => {
+        const imageUrl = image.url;
+        const filename = imageUrl.split("/").pop();
+        const filePath = `uploads/${filename}`;
+
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          console.log(`Deleted image: ${filePath}`);
+        } else {
+          console.log(`Image not found: ${filePath}`);
+        }
+      });
+    }
 
     res.status(200).send(`VeggiePost ${veggieData.title} deleted !`);
   } catch (error) {
@@ -219,13 +236,44 @@ async function deleteVeggiePost(req, res) {
 async function uploadImage(req, res) {
   const uploadedFiles = req.files.map((file) => {
     return {
-      filename: file.filename,
-      path: file.path,
       url: `http://localhost:5001/uploads/${file.filename}`,
     };
   });
 
   res.json(uploadedFiles);
+}
+
+async function getAllVeggiePosts(req, res) {
+  try {
+    const resultVeggiePosts = [];
+    await database
+      .collection("VeggiePosts")
+      .get()
+      .then((queryVeggiePosts) => {
+        if (!queryVeggiePosts.empty) {
+          queryVeggiePosts.forEach((doc) => {
+            const data = doc.data();
+            const veggiePost = new VeggiePost(
+              doc.id,
+              data.title,
+              data.description,
+              data.price,
+              data.stock,
+              data.unit,
+              data.location,
+              data.images,
+              data.userID
+            );
+            resultVeggiePosts.push(veggiePost);
+          });
+        }
+      });
+
+    res.status(200).json(resultVeggiePosts);
+  } catch (error) {
+    console.error("Error when fetching veggie posts by user id !", error);
+    res.status(500).send("Error when fetching veggie posts by user id !");
+  }
 }
 
 export {
@@ -234,5 +282,6 @@ export {
   getVeggiePostByUserID,
   updateVeggiePost,
   deleteVeggiePost,
+  getAllVeggiePosts,
   uploadImage,
 };

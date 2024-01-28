@@ -24,6 +24,8 @@ router.post("/newVeggiePost", veggiePostService.createVeggiePost);
 
 router.get("/post/:veggieId", veggiePostService.getVeggiePostById);
 
+router.get("/allPosts", veggiePostService.getAllVeggiePosts);
+
 router.get(
   "/posts/veggiePostsByUserId",
   veggiePostService.getVeggiePostByUserID

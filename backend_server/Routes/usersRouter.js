@@ -5,10 +5,6 @@ const router = express.Router();
 
 router.post("/newUser", usersService.createUser);
 
-// router.get("/users/:userId", usersService.getUserById);
-
-// router.get("/userByEmail", usersService.getUserByEmail);
-
 router.post("/login", usersService.login);
 
 router.get("/logout", usersService.logout);
