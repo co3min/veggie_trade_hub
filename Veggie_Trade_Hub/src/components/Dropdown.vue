@@ -93,15 +93,14 @@ export default {
     },
     async logout() {
       try {
-        console.log("Nu mere");
-        await axios.get("http://localhost:5001/veggie/logout");
+        document.cookie =
+          "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-        this.$store.commit("setUser", null);
-        // this.document.cookie =
-        //   "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-        // this.$router.push({ name: "home" });
-      } catch (error) {}
+        this.$router.push({ name: "home" });
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     },
     userInfo() {
       this.$router.push({ name: "userInfo" });
@@ -116,6 +115,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add Tailwind CSS styles here */
-</style>
+<style scoped></style>

@@ -19,9 +19,7 @@
           </svg>
         </button>
       </div>
-      <!-- Render carousel only if there are images -->
       <template v-if="post.images && post.images.length > 0">
-        <!-- Carousel -->
         <carousel :items-to-show="1">
           <slide v-for="(image, index) in post.images" :key="index">
             <img :src="image.url" :alt="image.alt" class="w-full h-auto mb-4" />

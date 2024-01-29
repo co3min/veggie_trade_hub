@@ -132,7 +132,7 @@ async function login(req, res) {
     const token = jwt.sign({ id: user.id }, privateKey, { algorithm: "RS256" });
 
     res.cookie("jwt", token, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -165,12 +165,6 @@ async function getUserFromCookie(req, res) {
   } catch (error) {
     return res.status(401).send("Unauthenticated");
   }
-}
-
-async function logout(req, res) {
-  res.clearCookie("jwt");
-  console.log("Logout");
-  res.status(200).send("Logout successful");
 }
 
 async function updateUser(req, res) {
@@ -244,4 +238,4 @@ async function deleteUser(req, res) {
   }
 }
 
-export { createUser, login, logout, getUserFromCookie, updateUser, deleteUser };
+export { createUser, login, getUserFromCookie, updateUser, deleteUser };

@@ -143,7 +143,6 @@ export default {
         await this.fetchOwnUserVeggiePosts();
       } catch (error) {
         console.error("Error deleting veggie post:", error);
-        // Handle error if needed
       }
     },
     updatePost(post) {

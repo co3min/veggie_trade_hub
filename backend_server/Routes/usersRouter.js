@@ -7,8 +7,6 @@ router.post("/newUser", usersService.createUser);
 
 router.post("/login", usersService.login);
 
-router.get("/logout", usersService.logout);
-
 router.get("/user", usersService.getUserFromCookie);
 
 router.put("/users/update/:userId", usersService.updateUser);

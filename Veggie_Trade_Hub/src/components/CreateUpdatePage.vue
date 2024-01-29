@@ -286,6 +286,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add your custom styling or adjustments here */
-</style>
+<style scoped></style>

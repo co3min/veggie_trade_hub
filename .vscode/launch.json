@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run SRV",
+            "skipFiles": ["<node_internals>/**"],
+            "presentation": {
+              "hidden": false,
+              "group": "TAPP",
+              "order": 2
+            },
+            "cwd": "${workspaceFolder}/backend_server",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run","start"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "neverOpen",
+           
+          }
+    ]
+}
