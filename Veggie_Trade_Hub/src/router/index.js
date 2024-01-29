@@ -6,6 +6,7 @@ import UserInfo from "../components/UserInfo.vue";
 import CreatePost from "../components/CreatePost.vue";
 import MyVeggiePosts from "../components/MyVeggiePosts.vue";
 import UpdatePost from "../components/UpdatePost.vue";
+import AboutUs from "../components/AboutUs.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: "/updateVeggiePost/:id",
       name: "updateVeggiePost",
       component: UpdatePost,
+    },
+    {
+      path: "/aboutUs",
+      name: "aboutUs",
+      component: AboutUs,
     },
   ],
 });

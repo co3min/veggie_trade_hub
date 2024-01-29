@@ -7,6 +7,7 @@ export class VeggiePost {
     stock,
     unit,
     location,
+    phoneNo,
     images,
     userID
   ) {
@@ -17,6 +18,7 @@ export class VeggiePost {
     this.stock = stock;
     this.unit = unit;
     this.location = location;
+    this.phoneNo = phoneNo;
     this.images = images;
     this.userID = userID;
   }

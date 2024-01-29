@@ -37,6 +37,7 @@
         <p class="text-sm text-gray-600">Stock: {{ post.stock }}</p>
         <p class="text-sm text-gray-600">Unit: {{ post.unit }}</p>
         <p class="text-sm text-gray-600">Location: {{ post.location }}</p>
+        <p class="text-sm text-gray-600">Phone Number: {{ post.phoneNo }}</p>
         <p v-if="post.description" class="text-sm text-gray-600">
           Description: <br />
           {{ post.description }}

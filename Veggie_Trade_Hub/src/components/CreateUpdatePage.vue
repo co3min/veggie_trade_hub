@@ -88,6 +88,18 @@
         </div>
 
         <div class="mb-4">
+          <label for="phoneNo" class="block text-xl font-semibold text-gray-600"
+            >Phone number</label
+          >
+          <input
+            v-model="veggiePost.phoneNo"
+            type="text"
+            id="phoneNo"
+            required
+            class="w-full mt-1 p-2 border rounded-md" />
+        </div>
+
+        <div class="mb-4">
           <label for="image" class="block text-xl font-semibold text-gray-600"
             >Image</label
           >
@@ -146,6 +158,7 @@ export default {
         stock: 0,
         unit: "",
         location: "",
+        phoneNo: "",
         images: [],
         userID: "",
       },
@@ -222,6 +235,7 @@ export default {
               stock: this.veggiePost.stock,
               unit: this.veggiePost.unit,
               location: this.veggiePost.location,
+              phoneNo: this.veggiePost.phoneNo,
               images: this.veggiePost.images,
               userID: this.veggiePost.userID,
             }
@@ -244,6 +258,7 @@ export default {
               stock: this.veggiePost.stock,
               unit: this.veggiePost.unit,
               location: this.veggiePost.location,
+              phoneNo: this.veggiePost.phoneNo,
               images: this.veggiePost.images,
               userID: this.veggiePost.userID,
             }

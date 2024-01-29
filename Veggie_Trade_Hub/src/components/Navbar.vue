@@ -53,8 +53,7 @@ export default {
     const showDropdown = ref(false);
     let links = [
       { name: "Home", link: "/" },
-      { name: "About", link: "#" },
-      { name: "Contact", link: "#" },
+      { name: "About", link: "/aboutUs" },
     ];
 
     const router = useRouter();

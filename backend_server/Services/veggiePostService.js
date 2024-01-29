@@ -15,8 +15,17 @@ async function verifyUserExist(userId) {
 
 async function createVeggiePost(req, res) {
   try {
-    const { title, description, price, stock, unit, location, images, userID } =
-      req.body;
+    const {
+      title,
+      description,
+      price,
+      stock,
+      unit,
+      location,
+      phoneNo,
+      images,
+      userID,
+    } = req.body;
 
     if (price <= 0) {
       return res.status(400).send("Price cannot be zero or equal to zero !");
@@ -39,6 +48,7 @@ async function createVeggiePost(req, res) {
       stock,
       unit,
       location,
+      phoneNo,
       images,
       userID
     );
@@ -50,6 +60,7 @@ async function createVeggiePost(req, res) {
       stock: veggie.stock,
       unit: veggie.unit,
       location: veggie.location,
+      phoneNo: veggie.phoneNo,
       images: veggie.images,
       userID: veggie.userID,
     });
@@ -115,6 +126,7 @@ async function getVeggiePostByUserID(req, res) {
               data.stock,
               data.unit,
               data.location,
+              data.phoneNo,
               data.images,
               data.userID
             );
@@ -143,8 +155,17 @@ async function updateVeggiePost(req, res) {
       return res.status(404).send("VeggiePost not found !");
     }
 
-    let { title, description, price, stock, unit, location, images, userID } =
-      req.body;
+    let {
+      title,
+      description,
+      price,
+      stock,
+      unit,
+      location,
+      phoneNo,
+      images,
+      userID,
+    } = req.body;
 
     if (price <= 0) {
       return res.status(400).send("Price cannot be zero or equal to zero !");
@@ -166,6 +187,7 @@ async function updateVeggiePost(req, res) {
       stock,
       unit,
       location,
+      phoneNo,
       images,
       userID,
     });
@@ -183,6 +205,7 @@ async function updateVeggiePost(req, res) {
       updatedVeggiePostData.stock,
       updatedVeggiePostData.unit,
       updatedVeggiePostData.location,
+      updatedVeggiePostData.phoneNo,
       updatedVeggiePostData.images,
       updatedVeggiePostData.userID
     );
@@ -261,6 +284,7 @@ async function getAllVeggiePosts(req, res) {
               data.stock,
               data.unit,
               data.location,
+              data.phoneNo,
               data.images,
               data.userID
             );
