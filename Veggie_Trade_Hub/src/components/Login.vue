@@ -85,7 +85,7 @@ export default {
 
             this.$store.commit("setUser", this.user);
             this.$router.push({ name: "home" });
-          }, 3000);
+          }, 2000);
         } catch (error) {
           console.error("Error in getUserData:", error);
         }
@@ -96,7 +96,7 @@ export default {
         setTimeout(() => {
           this.showError = false;
           this.alertMessage = "";
-        }, 3000);
+        }, 2000);
       }
     },
   },

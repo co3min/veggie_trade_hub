@@ -113,7 +113,7 @@ export default {
           this.showAlert = false;
           this.alertMessage = "";
           this.$router.push("/login");
-        }, 3000);
+        }, 2000);
 
         // You can handle the response or perform additional actions here
       } catch (error) {
@@ -123,7 +123,7 @@ export default {
         setTimeout(() => {
           this.showError = false;
           this.alertMessage = "";
-        }, 3000);
+        }, 2000);
       }
     },
   },

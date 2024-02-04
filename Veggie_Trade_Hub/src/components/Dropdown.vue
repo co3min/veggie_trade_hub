@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -96,8 +95,9 @@ export default {
         document.cookie =
           "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-        this.$router.push({ name: "home" });
-        window.location.reload();
+        this.$router.push({ path: "/" }).then(() => {
+          window.location.reload();
+        });
       } catch (error) {
         console.log(error);
       }
